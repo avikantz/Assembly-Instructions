@@ -9,11 +9,15 @@
 /* Begin PBXBuildFile section */
 		594FADC61C59DA2900C30DD5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 594FADC51C59DA2900C30DD5 /* main.m */; };
 		594FADC91C59DA2900C30DD5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 594FADC81C59DA2900C30DD5 /* AppDelegate.m */; };
-		594FADCC1C59DA2900C30DD5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 594FADCB1C59DA2900C30DD5 /* ViewController.m */; };
 		594FADCF1C59DA2900C30DD5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 594FADCD1C59DA2900C30DD5 /* Main.storyboard */; };
 		594FADD21C59DA2900C30DD5 /* Assembly_Instructions.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 594FADD01C59DA2900C30DD5 /* Assembly_Instructions.xcdatamodeld */; };
 		594FADD41C59DA2900C30DD5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 594FADD31C59DA2900C30DD5 /* Assets.xcassets */; };
 		594FADD71C59DA2900C30DD5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 594FADD51C59DA2900C30DD5 /* LaunchScreen.storyboard */; };
+		594FADE61C59DAF000C30DD5 /* ASMInstruction+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 594FADE31C59DAF000C30DD5 /* ASMInstruction+CoreDataProperties.m */; };
+		594FADE71C59DAF000C30DD5 /* ASMInstruction.m in Sources */ = {isa = PBXBuildFile; fileRef = 594FADE51C59DAF000C30DD5 /* ASMInstruction.m */; };
+		594FADEA1C59DBCD00C30DD5 /* defaultInstructions.json in Resources */ = {isa = PBXBuildFile; fileRef = 594FADE91C59DBCD00C30DD5 /* defaultInstructions.json */; };
+		594FADED1C59DD9100C30DD5 /* ListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 594FADEC1C59DD9100C30DD5 /* ListTableViewController.m */; };
+		594FADF01C59DD9B00C30DD5 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 594FADEF1C59DD9B00C30DD5 /* DetailTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,13 +25,20 @@
 		594FADC51C59DA2900C30DD5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		594FADC71C59DA2900C30DD5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		594FADC81C59DA2900C30DD5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		594FADCA1C59DA2900C30DD5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		594FADCB1C59DA2900C30DD5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		594FADCE1C59DA2900C30DD5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		594FADD11C59DA2900C30DD5 /* Assembly_Instructions.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Assembly_Instructions.xcdatamodel; sourceTree = "<group>"; };
 		594FADD31C59DA2900C30DD5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		594FADD61C59DA2900C30DD5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		594FADD81C59DA2900C30DD5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		594FADE21C59DAF000C30DD5 /* ASMInstruction+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ASMInstruction+CoreDataProperties.h"; path = "Model/ASMInstruction+CoreDataProperties.h"; sourceTree = "<group>"; };
+		594FADE31C59DAF000C30DD5 /* ASMInstruction+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ASMInstruction+CoreDataProperties.m"; path = "Model/ASMInstruction+CoreDataProperties.m"; sourceTree = "<group>"; };
+		594FADE41C59DAF000C30DD5 /* ASMInstruction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASMInstruction.h; path = Model/ASMInstruction.h; sourceTree = "<group>"; };
+		594FADE51C59DAF000C30DD5 /* ASMInstruction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASMInstruction.m; path = Model/ASMInstruction.m; sourceTree = "<group>"; };
+		594FADE91C59DBCD00C30DD5 /* defaultInstructions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = defaultInstructions.json; sourceTree = "<group>"; };
+		594FADEB1C59DD9100C30DD5 /* ListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListTableViewController.h; path = Controllers/ListTableViewController.h; sourceTree = "<group>"; };
+		594FADEC1C59DD9100C30DD5 /* ListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListTableViewController.m; path = Controllers/ListTableViewController.m; sourceTree = "<group>"; };
+		594FADEE1C59DD9B00C30DD5 /* DetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailTableViewController.h; path = Controllers/DetailTableViewController.h; sourceTree = "<group>"; };
+		594FADEF1C59DD9B00C30DD5 /* DetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailTableViewController.m; path = Controllers/DetailTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,15 +71,11 @@
 		594FADC31C59DA2900C30DD5 /* Assembly Instructions */ = {
 			isa = PBXGroup;
 			children = (
-				594FADC71C59DA2900C30DD5 /* AppDelegate.h */,
-				594FADC81C59DA2900C30DD5 /* AppDelegate.m */,
-				594FADCA1C59DA2900C30DD5 /* ViewController.h */,
-				594FADCB1C59DA2900C30DD5 /* ViewController.m */,
-				594FADCD1C59DA2900C30DD5 /* Main.storyboard */,
 				594FADD31C59DA2900C30DD5 /* Assets.xcassets */,
-				594FADD51C59DA2900C30DD5 /* LaunchScreen.storyboard */,
-				594FADD81C59DA2900C30DD5 /* Info.plist */,
-				594FADD01C59DA2900C30DD5 /* Assembly_Instructions.xcdatamodeld */,
+				594FADDE1C59DA3100C30DD5 /* App Delegate */,
+				594FADE11C59DA6D00C30DD5 /* Model */,
+				594FADE01C59DA4900C30DD5 /* Views */,
+				594FADDF1C59DA3700C30DD5 /* Controllers */,
 				594FADC41C59DA2900C30DD5 /* Supporting Files */,
 			);
 			path = "Assembly Instructions";
@@ -77,9 +84,60 @@
 		594FADC41C59DA2900C30DD5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				594FADE91C59DBCD00C30DD5 /* defaultInstructions.json */,
+				594FADD81C59DA2900C30DD5 /* Info.plist */,
 				594FADC51C59DA2900C30DD5 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		594FADDE1C59DA3100C30DD5 /* App Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				594FADC71C59DA2900C30DD5 /* AppDelegate.h */,
+				594FADC81C59DA2900C30DD5 /* AppDelegate.m */,
+			);
+			name = "App Delegate";
+			sourceTree = "<group>";
+		};
+		594FADDF1C59DA3700C30DD5 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				594FADEB1C59DD9100C30DD5 /* ListTableViewController.h */,
+				594FADEC1C59DD9100C30DD5 /* ListTableViewController.m */,
+				594FADEE1C59DD9B00C30DD5 /* DetailTableViewController.h */,
+				594FADEF1C59DD9B00C30DD5 /* DetailTableViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		594FADE01C59DA4900C30DD5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				594FADCD1C59DA2900C30DD5 /* Main.storyboard */,
+				594FADD51C59DA2900C30DD5 /* LaunchScreen.storyboard */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		594FADE11C59DA6D00C30DD5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				594FADE81C59DAF700C30DD5 /* ASMInstruction */,
+				594FADD01C59DA2900C30DD5 /* Assembly_Instructions.xcdatamodeld */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		594FADE81C59DAF700C30DD5 /* ASMInstruction */ = {
+			isa = PBXGroup;
+			children = (
+				594FADE21C59DAF000C30DD5 /* ASMInstruction+CoreDataProperties.h */,
+				594FADE31C59DAF000C30DD5 /* ASMInstruction+CoreDataProperties.m */,
+				594FADE41C59DAF000C30DD5 /* ASMInstruction.h */,
+				594FADE51C59DAF000C30DD5 /* ASMInstruction.m */,
+			);
+			name = ASMInstruction;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,6 +199,7 @@
 			files = (
 				594FADD71C59DA2900C30DD5 /* LaunchScreen.storyboard in Resources */,
 				594FADD41C59DA2900C30DD5 /* Assets.xcassets in Resources */,
+				594FADEA1C59DBCD00C30DD5 /* defaultInstructions.json in Resources */,
 				594FADCF1C59DA2900C30DD5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,10 +211,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				594FADCC1C59DA2900C30DD5 /* ViewController.m in Sources */,
+				594FADE61C59DAF000C30DD5 /* ASMInstruction+CoreDataProperties.m in Sources */,
 				594FADC91C59DA2900C30DD5 /* AppDelegate.m in Sources */,
+				594FADF01C59DD9B00C30DD5 /* DetailTableViewController.m in Sources */,
 				594FADD21C59DA2900C30DD5 /* Assembly_Instructions.xcdatamodeld in Sources */,
+				594FADE71C59DAF000C30DD5 /* ASMInstruction.m in Sources */,
 				594FADC61C59DA2900C30DD5 /* main.m in Sources */,
+				594FADED1C59DD9100C30DD5 /* ListTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  DetailTableViewController.h
 //  Assembly Instructions
 //
 //  Created by Avikant Saini on 1/28/16.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface DetailTableViewController : UITableViewController
 
 @end
-
