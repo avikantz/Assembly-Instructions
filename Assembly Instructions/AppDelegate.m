@@ -17,6 +17,26 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
+	
+	NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"ASMInstruction"];
+	NSError *error;
+	NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (fetchedArray.count < 1) {
+		NSString *path = [[NSBundle mainBundle] pathForResource:@"defaultInstructions.json" ofType:nil];
+		id json = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:kNilOptions error:&error];
+		NSEntityDescription *entity = [NSEntityDescription entityForName:@"ASMInstruction" inManagedObjectContext:self.managedObjectContext];
+		if (json) {
+			for (id dict in json) {
+				ASMInstruction *instruction = [[ASMInstruction alloc] initWithEntity:entity withDict:dict insertIntoManagedObjectContext:self.managedObjectContext];
+				instruction.additional = @"";
+				instruction.example = @"";
+			}
+			if ([self.managedObjectContext save:&error]) {
+				NSLog(@"Error in saving: %@", error.localizedDescription);
+			}
+		}
+	}
+	
 	return YES;
 }
 
@@ -107,6 +127,11 @@
     _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     [_managedObjectContext setPersistentStoreCoordinator:coordinator];
     return _managedObjectContext;
+}
+
++ (NSManagedObjectContext *)managedObjectContext {
+	AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+	return appDelegate.managedObjectContext;
 }
 
 #pragma mark - Core Data Saving support
