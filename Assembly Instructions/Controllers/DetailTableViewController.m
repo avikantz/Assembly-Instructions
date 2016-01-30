@@ -76,27 +76,33 @@
 
 - (void)saveInstruction {
 	
-	ASMInstruction *instruction;
+	if (self.nameField.text.length < 1) {
+		[SVProgressHUD showErrorWithStatus:@"Name too short"];
+		return;
+	}
+	if (self.tagsField.text.length < 1) {
+		[SVProgressHUD showErrorWithStatus:@"Tags too short"];
+		return;
+	}
+	
 	NSManagedObjectContext *context = [AppDelegate managedObjectContext];
 	
-	if (self.instruction)
-		instruction = self.instruction;
-	else
-		instruction = [[ASMInstruction alloc] initWithEntity:[NSEntityDescription entityForName:@"ASMInstruction" inManagedObjectContext:context] insertIntoManagedObjectContext:context];
+	if (!self.instruction)
+		self.instruction = [[ASMInstruction alloc] initWithEntity:[NSEntityDescription entityForName:@"ASMInstruction" inManagedObjectContext:context] insertIntoManagedObjectContext:context];
 	
-	instruction.name = self.nameField.text;
-	instruction.tags = self.tagsField.text;
-	instruction.brief = self.briefTextView.text;
-	instruction.detail = self.detailTextView.text;
-	instruction.example = self.exampleTextView.text;
-	instruction.additional = self.additionalTextView.text;
+	self.instruction.name = self.nameField.text;
+	self.instruction.tags = self.tagsField.text;
+	self.instruction.brief = self.briefTextView.text;
+	self.instruction.detail = self.detailTextView.text;
+	self.instruction.example = self.exampleTextView.text;
+	self.instruction.additional = self.additionalTextView.text;
 	
 	NSError *error;
 	
 	if (![context save:&error])
 		NSLog(@"Error in saving: %@", error);
 	
-	self.title = instruction.name;
+	self.title = self.instruction.name;
 	
 }
 

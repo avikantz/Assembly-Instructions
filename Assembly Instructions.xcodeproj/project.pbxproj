@@ -22,6 +22,7 @@
 		594FADFB1C5C9D2B00C30DD5 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 594FADF51C5C9D2B00C30DD5 /* SVProgressHUD.bundle */; };
 		594FADFC1C5C9D2B00C30DD5 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 594FADF71C5C9D2B00C30DD5 /* SVProgressHUD.m */; };
 		594FADFD1C5C9D2B00C30DD5 /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 594FADF91C5C9D2B00C30DD5 /* SVRadialGradientLayer.m */; };
+		594FAE011C5D332000C30DD5 /* GCPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 594FAE001C5D332000C30DD5 /* GCPlaceholderTextView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,8 @@
 		594FADF71C5C9D2B00C30DD5 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		594FADF81C5C9D2B00C30DD5 /* SVRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRadialGradientLayer.h; sourceTree = "<group>"; };
 		594FADF91C5C9D2B00C30DD5 /* SVRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRadialGradientLayer.m; sourceTree = "<group>"; };
+		594FADFF1C5D332000C30DD5 /* GCPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCPlaceholderTextView.h; sourceTree = "<group>"; };
+		594FAE001C5D332000C30DD5 /* GCPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCPlaceholderTextView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +86,7 @@
 		594FADC31C59DA2900C30DD5 /* Assembly Instructions */ = {
 			isa = PBXGroup;
 			children = (
-				594FADF11C5C9D2B00C30DD5 /* SVProgressHUD */,
+				594FAE021C5D332200C30DD5 /* Libraries */,
 				594FADD31C59DA2900C30DD5 /* Assets.xcassets */,
 				594FADDE1C59DA3100C30DD5 /* App Delegate */,
 				594FADE11C59DA6D00C30DD5 /* Model */,
@@ -168,6 +171,24 @@
 			path = SVProgressHUD;
 			sourceTree = "<group>";
 		};
+		594FADFE1C5D332000C30DD5 /* GCPlaceholderTextView */ = {
+			isa = PBXGroup;
+			children = (
+				594FADFF1C5D332000C30DD5 /* GCPlaceholderTextView.h */,
+				594FAE001C5D332000C30DD5 /* GCPlaceholderTextView.m */,
+			);
+			path = GCPlaceholderTextView;
+			sourceTree = "<group>";
+		};
+		594FAE021C5D332200C30DD5 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				594FADFE1C5D332000C30DD5 /* GCPlaceholderTextView */,
+				594FADF11C5C9D2B00C30DD5 /* SVProgressHUD */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -240,6 +261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				594FAE011C5D332000C30DD5 /* GCPlaceholderTextView.m in Sources */,
 				594FADE61C59DAF000C30DD5 /* ASMInstruction+CoreDataProperties.m in Sources */,
 				594FADC91C59DA2900C30DD5 /* AppDelegate.m in Sources */,
 				594FADF01C59DD9B00C30DD5 /* DetailTableViewController.m in Sources */,

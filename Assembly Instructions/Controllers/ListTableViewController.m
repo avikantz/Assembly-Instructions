@@ -16,6 +16,7 @@
 @implementation ListTableViewController {
 	NSMutableArray *instructions;
 	BOOL searching;
+	UIBarButtonItem *deleteButton;
 }
 
 - (void)viewDidLoad {
@@ -23,11 +24,15 @@
 	
 	instructions = [NSMutableArray new];
 	[self fetchInstructions];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
 	
-     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+	deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteSelectedRows:)];
+	
+	self.clearsSelectionOnViewWillAppear = NO;
+	
+	// Fix editing problems...
+//	self.navigationItem.leftBarButtonItem = self.editButtonItem;
+	
+	// TO DO - Add sections?
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -54,7 +59,7 @@
 	
 	[self fetchInstructions];
 
-	[instructions filterUsingPredicate:[NSPredicate predicateWithFormat:@"tags contains[cd] %@", self.searchBar.text]];
+	[instructions filterUsingPredicate:[NSPredicate predicateWithFormat:@"tags contains[cd] %@ OR brief contains[cd] %@", self.searchBar.text, self.searchBar.text]];
 	
 	[self.tableView reloadData];
 	
@@ -94,7 +99,6 @@
     return YES;
 }
 
-
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 	
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -113,10 +117,65 @@
     }
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	if (searching)
+		return [NSString stringWithFormat:@"%li INSTRUCTIONS.", instructions.count];
+	return @"";
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+	if (searching)
+		return @"";
+	return [NSString stringWithFormat:@"%li INSTRUCTIONS.", instructions.count];
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+//	if (self.isEditing) {
+//		if ([tableView indexPathsForSelectedRows].count > 0)
+//			self.navigationItem.rightBarButtonItem = deleteButton;
+//	}
+//	else {
+		[tableView deselectRowAtIndexPath:indexPath animated:YES];
+//		self.navigationItem.rightBarButtonItem = self.addBarButton;
+//	}
+}
+
+#pragma mark - Delete multiple
+
+- (void)deleteSelectedRows:(id)sender {
+	
+	NSArray *indexPaths = [self.tableView indexPathsForSelectedRows];
+	
+	NSManagedObjectContext *context = [AppDelegate managedObjectContext];
+	
+	UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+		
+		for (NSInteger i = 0; i < indexPaths.count; ++i) {
+			NSIndexPath *indexPath = [indexPaths objectAtIndex:i];
+			ASMInstruction *instruction = [instructions objectAtIndex:indexPath.row];
+			[instructions removeObject:instruction];
+			[context deleteObject:instruction];
+		}
+		
+		NSError *error;
+		if (![context save:&error]) {
+			NSLog(@"Error in saving: %@", error.localizedDescription);
+		}
+		
+		self.navigationItem.rightBarButtonItem = self.addBarButton;
+		[self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+		[self.tableView reloadData];
+	}];
+	
+	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+	
+	UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Delete?" message:[NSString stringWithFormat:@"Are you sure you want to delete %li items. This action is irreversible.", indexPaths.count] preferredStyle:UIAlertControllerStyleActionSheet];
+	[alertController addAction:deleteAction];
+	[alertController addAction:cancelAction];
+	
+	[self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - Search bar delegate
@@ -143,6 +202,12 @@
 }
 
 #pragma mark - Navigation
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+	if (self.isEditing)
+		return NO;
+	return YES;
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 	
