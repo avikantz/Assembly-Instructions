@@ -18,8 +18,8 @@
 	
 	if (self) {
 		self.name = [NSString stringWithFormat:@"%@", dict[@"Name"]];
-		NSArray *tags = [NSArray arrayWithObject:dict[@"Alias"]];
-		self.tags = [NSString stringWithFormat:@"%@ %@", self.name, [tags componentsJoinedByString:@" "]];
+		NSArray *tagArray = [NSArray arrayWithArray:dict[@"Alias"]];
+		self.tags = [NSString stringWithFormat:@"%@ | %@", self.name, [tagArray componentsJoinedByString:@", "]];
 		self.brief = [NSString stringWithFormat:@"%@", dict[@"Brief"]];
 		self.detail = [NSString stringWithFormat:@"%@", dict[@"Description"]];
 	}

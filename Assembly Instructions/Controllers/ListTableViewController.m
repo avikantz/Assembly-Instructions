@@ -7,6 +7,7 @@
 //
 
 #import "ListTableViewController.h"
+#import "DetailTableViewController.h"
 
 @interface ListTableViewController ()
 
@@ -14,12 +15,14 @@
 
 @implementation ListTableViewController {
 	NSMutableArray *instructions;
+	BOOL searching;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
 	instructions = [NSMutableArray new];
+	[self fetchInstructions];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -28,22 +31,33 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+
+	if (searching)
+		[self filterInstructions];
+	else
+		[self fetchInstructions];
 	
-	[SVProgressHUD showWithStatus:@"Loading..."];
+}
+
+- (void)fetchInstructions {
 	
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		
-		NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"ASMInstruction"];
-		[request setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
-		NSError *error;
-		instructions = [[[AppDelegate managedObjectContext] executeFetchRequest:request error:&error] mutableCopy];
-		
-		dispatch_async(dispatch_get_main_queue(), ^{
-			
-			[SVProgressHUD dismiss];
-			[self.tableView reloadData];
-		});
-	});
+	NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"ASMInstruction"];
+	[request setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+	NSError *error;
+	instructions = [[[AppDelegate managedObjectContext] executeFetchRequest:request error:&error] mutableCopy];
+
+	[self.tableView reloadData];
+	
+}
+
+- (void)filterInstructions {
+	
+	[self fetchInstructions];
+
+	[instructions filterUsingPredicate:[NSPredicate predicateWithFormat:@"tags contains[cd] %@", self.searchBar.text]];
+	
+	[self.tableView reloadData];
+	
 }
 
 - (void)didReceiveMemoryWarning {
@@ -105,14 +119,40 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-/*
+#pragma mark - Search bar delegate
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+	if (searchBar.text.length > 0) {
+		searching = YES;
+		[self filterInstructions];
+	}
+	else {
+		searching = NO;
+		[self fetchInstructions];
+	}
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+	[self fetchInstructions];
+}
+
+#pragma mark - Scroll view delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	[self.searchBar resignFirstResponder];
+}
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+	
+	if ([segue.identifier isEqualToString:@"instructionDetailSegue"]) {
+		NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+		ASMInstruction *instruction = [instructions objectAtIndex:indexPath.row];
+		DetailTableViewController *dtvc = [segue destinationViewController];
+		dtvc.instruction = instruction;
+	}
 }
-*/
+
 
 @end

@@ -25,6 +25,7 @@
 	self.navigationItem.rightBarButtonItem = rightButton;
 	
 	if (self.instruction) {
+		self.title = self.instruction.name;
 		self.nameField.text = self.instruction.name;
 		self.tagsField.text = self.instruction.tags;
 		self.briefTextView.text = self.instruction.brief;
@@ -32,13 +33,20 @@
 		self.exampleTextView.text = self.instruction.example;
 		self.additionalTextView.text = self.instruction.additional;
 	}
+	else {
+		[self toggleEditing:rightButton];
+	}
 }
 
 - (void)toggleEditing:(UIBarButtonItem *)sender {
+	
 	isEditing = !isEditing;
+	
 	if (isEditing) {
+		
 		[rightButton setTitle:@"Done"];
 		[rightButton setStyle:UIBarButtonItemStyleDone];
+		
 		[self.nameField setEnabled:YES];
 		[self.tagsField setEnabled:YES];
 		[self.briefTextView setEditable:YES];
@@ -47,17 +55,49 @@
 		[self.additionalTextView setEditable:YES];
 	}
 	else {
+		
 		[rightButton setTitle:@"Edit"];
 		[rightButton setStyle:UIBarButtonItemStylePlain];
+
 		[self.nameField setEnabled:NO];
 		[self.tagsField setEnabled:NO];
 		[self.briefTextView setEditable:NO];
 		[self.detailTextView setEditable:NO];
 		[self.exampleTextView setEditable:NO];
 		[self.additionalTextView setEditable:NO];
+		
 		[self.view endEditing:YES];
-		// Save...
+
+		[self saveInstruction];
 	}
+	
+	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)saveInstruction {
+	
+	ASMInstruction *instruction;
+	NSManagedObjectContext *context = [AppDelegate managedObjectContext];
+	
+	if (self.instruction)
+		instruction = self.instruction;
+	else
+		instruction = [[ASMInstruction alloc] initWithEntity:[NSEntityDescription entityForName:@"ASMInstruction" inManagedObjectContext:context] insertIntoManagedObjectContext:context];
+	
+	instruction.name = self.nameField.text;
+	instruction.tags = self.tagsField.text;
+	instruction.brief = self.briefTextView.text;
+	instruction.detail = self.detailTextView.text;
+	instruction.example = self.exampleTextView.text;
+	instruction.additional = self.additionalTextView.text;
+	
+	NSError *error;
+	
+	if (![context save:&error])
+		NSLog(@"Error in saving: %@", error);
+	
+	self.title = instruction.name;
+	
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,6 +106,39 @@
 }
 
 #pragma mark - Table view data source
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	if (section == 0) {
+		if (isEditing)
+			return 2;
+		return 0;
+	}
+	return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	CGFloat rowHeight = 44.f;
+	CGRect textRect;
+	CGSize textSize = CGSizeMake(SWidth - 44.f, 44.f);
+	NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:16.f]};
+	if (indexPath.section == 1) {
+		textRect = [self.briefTextView.text boundingRectWithSize:textSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil];
+		rowHeight = textRect.size.height;
+	}
+	else if (indexPath.section == 2) {
+		textRect = [self.detailTextView.text boundingRectWithSize:textSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil];
+		rowHeight = textRect.size.height;
+	}
+	else if (indexPath.section == 3) {
+		textRect = [self.exampleTextView.text boundingRectWithSize:textSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil];
+		rowHeight = textRect.size.height;
+	}
+	else if (indexPath.section == 4) {
+		textRect = [self.additionalTextView.text boundingRectWithSize:textSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil];
+		rowHeight = textRect.size.height;
+	}
+	return MAX(44.f, rowHeight);
+}
 
 #pragma mark - Table view delegate
 

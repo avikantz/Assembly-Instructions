@@ -31,7 +31,7 @@
 				instruction.additional = @"";
 				instruction.example = @"";
 			}
-			if ([self.managedObjectContext save:&error]) {
+			if (![self.managedObjectContext save:&error]) {
 				NSLog(@"Error in saving: %@", error.localizedDescription);
 			}
 		}
