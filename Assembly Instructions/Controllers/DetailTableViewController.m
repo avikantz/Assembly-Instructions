@@ -12,16 +12,52 @@
 
 @end
 
-@implementation DetailTableViewController
+@implementation DetailTableViewController {
+	BOOL isEditing;
+	UIBarButtonItem *rightButton;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	
+	isEditing = NO;
+	rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(toggleEditing:)];
+	self.navigationItem.rightBarButtonItem = rightButton;
+	
+	if (self.instruction) {
+		self.nameField.text = self.instruction.name;
+		self.tagsField.text = self.instruction.tags;
+		self.briefTextView.text = self.instruction.brief;
+		self.detailTextView.text = self.instruction.detail;
+		self.exampleTextView.text = self.instruction.example;
+		self.additionalTextView.text = self.instruction.additional;
+	}
+}
+
+- (void)toggleEditing:(UIBarButtonItem *)sender {
+	isEditing = !isEditing;
+	if (isEditing) {
+		[rightButton setTitle:@"Done"];
+		[rightButton setStyle:UIBarButtonItemStyleDone];
+		[self.nameField setEnabled:YES];
+		[self.tagsField setEnabled:YES];
+		[self.briefTextView setEditable:YES];
+		[self.detailTextView setEditable:YES];
+		[self.exampleTextView setEditable:YES];
+		[self.additionalTextView setEditable:YES];
+	}
+	else {
+		[rightButton setTitle:@"Edit"];
+		[rightButton setStyle:UIBarButtonItemStylePlain];
+		[self.nameField setEnabled:NO];
+		[self.tagsField setEnabled:NO];
+		[self.briefTextView setEditable:NO];
+		[self.detailTextView setEditable:NO];
+		[self.exampleTextView setEditable:NO];
+		[self.additionalTextView setEditable:NO];
+		[self.view endEditing:YES];
+		// Save...
+	}
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,57 +67,11 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 0;
-}
+#pragma mark - Table view delegate
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 /*
 #pragma mark - Navigation

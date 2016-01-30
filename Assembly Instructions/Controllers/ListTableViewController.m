@@ -19,14 +19,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"ASMInstruction"];
-	NSError *error;
-	instructions = [[AppDelegate managedObjectContext] executeFetchRequest:request error:&error];
+	instructions = [NSMutableArray new];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
 	
      self.navigationItem.leftBarButtonItem = self.editButtonItem;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	
+	[SVProgressHUD showWithStatus:@"Loading..."];
+	
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		
+		NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"ASMInstruction"];
+		[request setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+		NSError *error;
+		instructions = [[[AppDelegate managedObjectContext] executeFetchRequest:request error:&error] mutableCopy];
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			
+			[SVProgressHUD dismiss];
+			[self.tableView reloadData];
+		});
+	});
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,43 +64,46 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellID" forIndexPath:indexPath];
-    
+	
+	if (cell == nil)
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cellID"];
+	
+	ASMInstruction *instruction = [instructions objectAtIndex:indexPath.row];
+	
+	cell.textLabel.text = [instruction.name uppercaseString];
+	cell.detailTextLabel.text = instruction.brief;
+	
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
-// Override to support editing the table view.
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+	
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+		
+		ASMInstruction *instruction = [instructions objectAtIndex:indexPath.row];
+		[instructions removeObject:instruction];
+		
+		NSManagedObjectContext *context = [AppDelegate managedObjectContext];
+		[context deleteObject:instruction];
+		
+		NSError *error;
+		if (![context save:&error])
+			NSLog(@"Error in saving: %@", error.localizedDescription);
+		
+		[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    }
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
+#pragma mark - Table view delegate
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-*/
 
 /*
 #pragma mark - Navigation

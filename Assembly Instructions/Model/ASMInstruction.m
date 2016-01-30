@@ -19,7 +19,7 @@
 	if (self) {
 		self.name = [NSString stringWithFormat:@"%@", dict[@"Name"]];
 		NSArray *tags = [NSArray arrayWithObject:dict[@"Alias"]];
-		self.tags = [tags componentsJoinedByString:@" "];
+		self.tags = [NSString stringWithFormat:@"%@ %@", self.name, [tags componentsJoinedByString:@" "]];
 		self.brief = [NSString stringWithFormat:@"%@", dict[@"Brief"]];
 		self.detail = [NSString stringWithFormat:@"%@", dict[@"Description"]];
 	}

@@ -10,6 +10,7 @@
 #import <CoreData/CoreData.h>
 
 #import "ASMInstruction.h"
+#import "SVProgressHUD.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
